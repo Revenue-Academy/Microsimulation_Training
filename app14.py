@@ -26,7 +26,7 @@ def gti_format(gti):
 locale.setlocale(locale.LC_ALL, '')
 
 # create Records object containing pit.csv and pit_weights.csv input data
-recs = Records(data='pitBigData.csv', weights='pit_weightsBD.csv')
+recs = Records(data='pit.csv', weights='pit_weights.csv')
 
 # create Policy object containing current-law policy
 pol = Policy()
