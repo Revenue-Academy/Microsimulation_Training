@@ -18,11 +18,11 @@ Guide](http://taxcalc.readthedocs.io/en/latest/contributor_guide.html)
 on how to clone the pitaxcalc-demo git repository.  Before developing
 any code changes be sure to read completely the Contributor Guide and
 then read about our [coding
-style](https://github.com/Revenue-Academy/pitaxcalc-demo/blob/master/CODING.md#coding-style)
+style](https://github.com/Revenue-Academy/pitaxcalc/blob/master/CODING.md#coding-style)
 and [testing
-procedures](https://github.com/Revenue-Academy/pitaxcalc-demo/blob/master/TESTING.md#testing-procedures).
+procedures](https://github.com/Revenue-Academy/pitaxcalc/blob/master/TESTING.md#testing-procedures).
 You may find this [git cheat
-sheet](https://github.com/Revenue-Academy/pitaxcalc-demo/blob/master/SIMPLE_GIT_USAGE.md#simple-git-usage)
+sheet](https://github.com/Revenue-Academy/pitaxcalc/blob/master/SIMPLE_GIT_USAGE.md#simple-git-usage)
 useful in preparing a GitHub pull request that contains your proposed
 code changes.  The step-by-step workflow used to create and modify a
 new pull request has been documented for the USA Tax-Calculator in this
