@@ -5,8 +5,8 @@ This description of pitaxcalc-demo coding style is written for a
 person who wants to contribute changes to pitaxcalc-demo source code.
 It assumes that you have read the [Contributor
 Guide](http://taxcalc.readthedocs.io/en/latest/contributor_guide.html),
-have cloned the [central GitHub pitaxcalc-demo
-repository](https://github.com/TPRU-demo/pitaxcalc-demo)
+have cloned the [central GitHub pitaxcalc
+repository](https://github.com/Revenue-Academy/pitaxcalc)
 to your GitHub account and to your local computer, and are familiar
 with how to prepare a pull request for consideration by the core
 development team.  This document describes the coding style you should
