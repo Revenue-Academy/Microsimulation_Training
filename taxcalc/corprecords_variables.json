@@ -1,0 +1,342 @@
+{
+  "read": {
+    "ID_NO": {
+      "required": true,
+      "type": "int",
+      "desc": "Unique positive numeric identifier for filing unit",
+      "form": {"2017": "private info"}
+    },
+    "ASSESSMENT_YEAR": {
+      "type": "int",
+      "desc": "Assessment year of ITR form that include prior year information",
+      "form": {"2017": "ITR-1 Assessment Year (first year)"}
+    },
+    "INCOME_HP": {
+      "type": "float",
+      "desc": "Income from house property",
+      "form": {"2017": "ITR-6, Part B-TI, line 1"}
+    },
+    "ST_CG_AMT_1": {
+      "type": "float",
+      "desc": "Income from Short Term Capital Gains at Special rate1",
+      "form": {"2017": "ITR-6, Part B-TI, line 3(a)(i)"}
+    },
+    "ST_CG_AMT_2": {
+      "type": "float",
+      "desc": "Income from Short Term Capital Gains at Special rate2",
+      "form": {"2017": "ITR-6, Part B-TI, line 3(a)(ii)"}
+    },
+    "ST_CG_AMT_APPRATE": {
+      "type": "float",
+      "desc": "STCG at regular rates as per current law",
+      "form": {"2017": "ITR-6 Part B-TI-3a-iii"}
+    },
+    "LT_CG_AMT_1": {
+      "type": "float",
+      "desc": "Income from Long Term Capital Gains at Special rate1",
+      "form": {"2017": "ITR-6, Part B-TI, line 3(b)(i)"}
+    },
+    "LT_CG_AMT_2": {
+      "type": "float",
+      "desc": "Income from Long Term Capital Gains at Special rate2",
+      "form": {"2017": "ITR-6, Part B-TI, line 3(b)(ii)"}
+    },
+    "PRFT_GAIN_BP_OTHR_SPECLTV_BUS": {
+      "type": "float",
+      "desc": "Profits and Gains from BP other than speculative business",
+      "form": {"2017": "ITR-6 Part B-TI-2i"}
+    },
+    "PRFT_GAIN_BP_SPECLTV_BUS": {
+      "type": "float",
+      "desc": "Profits and Gains from speculative business",
+      "form": {"2017": "ITR-6 Part B-TI-2ii"}
+    },
+    "PRFT_GAIN_BP_SPCFD_BUS": {
+      "type": "float",
+      "desc": "Income from specified Business",
+      "form": {"2017": "ITR-6 Part B-TI-2iii"}
+    },
+    "PRFT_GAIN_BP_INC_115BBF": {
+      "type": "float",
+      "desc": "Income from patents u/s 115BBF",
+      "form": {"2017": "ITR-6 Part B-TI-2iv"}
+    },
+    "TOTAL_INCOME_OS": {
+      "type": "float",
+      "desc": "Income from Other Sources",
+      "form": {"2017": "ITR-6 Part B-TI-4d"}
+    },
+    "CYL_SET_OFF": {
+      "type": "float",
+      "desc": "Current Year Losses to be set off",
+      "form": {"2017": "ITR-6 Part B-TI 6"}
+    },
+    "BFL_SET_OFF_BALANCE": {
+      "type": "float",
+      "desc": "Brought Forward Losses to be set off",
+      "form": {"2017": "ITR-6 Part B-TI 8"}
+    },
+    "NET_AGRC_INCOME": {
+      "type": "float",
+      "desc": "Agricultural income used for rate purpose",
+      "form": {"2017": "ITR-6 Part B-TI 16"}
+    },
+    "TOTAL_DEDUC_VIA": {
+      "type": "float",
+      "desc": "Total itemized deductions",
+      "form": {"2017": "ITR-6 Part Part B-TI 12c"}
+    },
+    "TOTAL_DEDUC_10AA": {
+      "type": "float",
+      "desc": "Total deduction u/s 10AA",
+      "form": {"2017": "Column 11 of Part B-TI of ITR-6"}
+    },
+    "LOSS_LAG1": {
+      "type": "float",
+      "desc": "Loss lagged 1 year",
+      "form": {"2017": "ITR-6 Sch. CFL"}
+    },
+    "LOSS_LAG2": {
+      "type": "float",
+      "desc": "Loss lagged 2 year",
+      "form": {"2017": "ITR-6 Sch. CFL"}
+    },
+    "LOSS_LAG3": {
+      "type": "float",
+      "desc": "Loss lagged 3 year",
+      "form": {"2017": "ITR-6 Sch. CFL"}
+    },
+    "LOSS_LAG4": {
+      "type": "float",
+      "desc": "Loss lagged 4 year",
+      "form": {"2017": "ITR-6 Sch. CFL"}
+    },
+    "LOSS_LAG5": {
+      "type": "float",
+      "desc": "Loss lagged 5 year",
+      "form": {"2017": "ITR-6 Sch. CFL"}
+    },
+    "LOSS_LAG6": {
+      "type": "float",
+      "desc": "Loss lagged 6 year",
+      "form": {"2017": "ITR-6 Sch. CFL"}
+    },
+    "LOSS_LAG7": {
+      "type": "float",
+      "desc": "Loss lagged 7 year",
+      "form": {"2017": "ITR-6 Sch. CFL"}
+    },
+    "LOSS_LAG8": {
+      "type": "float",
+      "desc": "Loss lagged 8 year",
+      "form": {"2017": "ITR-6 Sch. CFL"}
+    },
+    "PWR_DOWN_VAL_1ST_DAY_PY_15P": {
+      "type": "float",
+      "desc": "Opening WDV for Plant and Machinery for Block1",
+      "form": {"2017": "ITR-6 Sch. DPM 3(i)"}
+    },
+    "PADDTNS_180_DAYS__MOR_PY_15P": {
+      "type": "float",
+      "desc": "Addition to Plant and Machinery for Block1 > 180 days",
+      "form": {"2017": "ITR-6 Sch. DPM 4(i)"}
+    },
+    "PCR34_PY_15P": {
+      "type": "float",
+      "desc": "Considerations for WDV/Additions to Plant and Machinery Block1 > 180 days",
+      "form": {"2017": "ITR-6 Sch. DPM 5(i)"}
+    },
+    "PADDTNS_LESS_180_DAYS_15P": {
+      "type": "float",
+      "desc": "Addition to Plant and Machinery for Block1 < 180 days",
+      "form": {"2017": "ITR-6 Sch. DPM 7(i)"}
+    },
+    "PCR7_PY_15P": {
+      "type": "float",
+      "desc": "Considerations for WDV/Additions to Plant and Machinery Block1 < 180 days",
+      "form": {"2017": "ITR-6 Sch. DPM 8(i)"}
+    },
+    "PEXP_INCURRD_TRF_ASSTS_15P": {
+      "type": "float",
+      "desc": "Expenditure in connection with transfer of Plant and Machinery for Block1",
+      "form": {"2017": "ITR-6 Sch. DPM 16(i)"}
+    },
+    "PCAP_GAINS_LOSS_SEC50_15P": {
+      "type": "float",
+      "desc": "Capital Gains on Sale of Plant and Machinery for Block1",
+      "form": {"2017": "ITR-6 Sch. DPM 17(i)"}
+    }
+  },
+  "calc": {
+    "Tax_ST_CG_RATE1": {
+      "type": "float",
+      "desc": "tax on Short Term Capital Gains at special rate1",
+      "form": {"2017": "Not real"}
+    },
+    "Tax_ST_CG_RATE2": {
+      "type": "float",
+      "desc": "tax on Short Term Capital Gains at special rate2",
+      "form": {"2017": "Not real"}
+    },
+    "Total_Tax_STCG": {
+      "type": "float",
+      "desc": "tax on Short Term Capital Gains at special rates",
+      "form": {"2017": "Not real"}
+    },
+    "Tax_LT_CG_RATE1": {
+      "type": "float",
+      "desc": "tax on Long Term Capital Gains at special rate1",
+      "form": {"2017": "Not real"}
+    },
+    "Tax_LT_CG_RATE2": {
+      "type": "float",
+      "desc": "tax on Long Term Capital Gains at special rate2",
+      "form": {"2017": "Not real"}
+    },
+    "Total_Tax_LTCG": {
+      "type": "float",
+      "desc": "tax on Long Term Capital Gains at special rates",
+      "form": {"2017": "Not real"}
+    },
+    "Total_Tax_Cap_Gains": {
+      "type": "float",
+      "desc": "Total Capital Gains Total_Tax_STCG + Total_Tax_LTCG (Total_Tax_Cap_Gains)",
+      "form": {"2017": "Not in Form"}
+    },
+    "TI_special_rates": {
+      "type": "float",
+      "desc": "Capital Gains to be taxed at special rates",
+      "form": {"2017": "Not real"}
+    },
+    "tax_TI_special_rates": {
+      "type": "float",
+      "desc": "tax on Capital Gains at special rates",
+      "form": {"2017": "Not real"}
+    },
+    "Income_BP": {
+      "type": "float",
+      "desc": "Computed income from Business and Profession)",
+      "form": {"2017": "ITR-6 Part B-TI-2vi"}
+    },
+    "GTI_Before_Loss": {
+      "type": "float",
+      "desc": "Gross Total Income (GTI)",
+      "form": {"2017": "ITR-6 Part B-TI line 5"}
+    },
+    "CY_Losses": {
+      "type": "float",
+      "desc": "Computed Current Year Losses to be set off",
+      "form": {"2017": "ITR-6 Part B-TI line 6"}
+    },
+    "BF_Losses": {
+      "type": "float",
+      "desc": "Computed Brought Forward Losses to be set off",
+      "form": {"2017": "ITR-6 Part B-TI line 8"}
+    },
+    "newloss1": {
+      "type": "float",
+      "desc": "Computed carried forward loss",
+      "form": {"2017": "ITR-6 Sch. CFL"}
+    },
+    "newloss2": {
+      "type": "float",
+      "desc": "Computed carried forward loss",
+      "form": {"2017": "ITR-6 Sch. CFL"}
+    },
+    "newloss3": {
+      "type": "float",
+      "desc": "Computed carried forward loss",
+      "form": {"2017": "ITR-6 Sch. CFL"}
+    },
+    "newloss4": {
+      "type": "float",
+      "desc": "Computed carried forward loss",
+      "form": {"2017": "ITR-6 Sch. CFL"}
+    },
+    "newloss5": {
+      "type": "float",
+      "desc": "Computed carried forward loss",
+      "form": {"2017": "ITR-6 Sch. CFL"}
+    },
+    "newloss6": {
+      "type": "float",
+      "desc": "Computed carried forward loss",
+      "form": {"2017": "ITR-6 Sch. CFL"}
+    },
+    "newloss7": {
+      "type": "float",
+      "desc": "Computed carried forward loss",
+      "form": {"2017": "ITR-6 Sch. CFL"}
+    },
+    "newloss8": {
+      "type": "float",
+      "desc": "Computed carried forward loss",
+      "form": {"2017": "ITR-6 Sch. CFL"}
+    },
+    "Aggregate_Income": {
+      "type": "float",
+      "desc": "Income taxed at normal rates TTI minus TI_special_rates",
+      "form": {"2017": "ITR-6 Part B-TI line 17"}
+    },
+    "GTI": {
+      "type": "float",
+      "desc": "Gross Total Income (GTI)",
+      "form": {"2017": "ITR-6 Part B-TI line 9"}
+    },
+    "dep_amt_pm1": {
+      "type": "float",
+      "desc": "Depreciation allowance for Plant and Machinery Block1",
+      "form": {"2017": "ITR-6 Schedule DPM 15(i)"}
+    },
+    "close_wdv_pm1": {
+      "type": "float",
+      "desc": "Closing Balance of WDV for Plant and Machinery Block1",
+      "form": {"2017": "ITR-6 Schedule DPM 18(i)"}
+    },
+    "deductions": {
+      "type": "float",
+      "desc": "Total itemized deductions",
+      "form": {"2017": "ITR-6 Part B-TI-12c"}
+    },
+    "deduction_10AA": {
+      "type": "float",
+      "desc": "Total deduction u/s 10AA",
+      "form": {"2017": "Part 11 of Part-B-TI of ITR 6"}
+    },
+    "TTI": {
+      "type": "float",
+      "desc": "Taxable Total Income (TTI)",
+      "form": {"2017": "ITR-6 Part B-TI line 13"}
+    },
+    "tax_Aggregate_Income": {
+      "type": "float",
+      "desc": "Tax liability on Income taxed at normal rates",
+      "form": {"2017": "ITR-6 Part B TTI-2a"}
+    },
+    "TI_special_rates": {
+      "type": "float",
+      "desc": "Taxable Total Income (TTI) taxed at special rates",
+      "form": {"2017": "ITR-6 Part B-TI line 14"}
+    },
+    "tax_TTI": {
+      "type": "float",
+      "desc": "Tax liability on TI which is tax_Aggregate_Income plus tax_TI_special_rates less agricultural rebate",
+      "form": {"2017": "ITR-6 Part B TTI-2a"}
+    },
+    "surcharge": {
+      "type": "float",
+      "desc": "Surcharge on income above surcharge_thd",
+      "form": {"2017": "ITR-6 Part B TTI-2diii"}
+    },
+    "cess": {
+      "type": "float",
+      "desc": "cess on tax and surcharge",
+      "form": {"2017": "ITR-6 Part B TTI-2e"}
+    },
+    "citax": {
+      "type": "float",
+      "desc": "PIT liability",
+      "form": {"2017": "ITR-6 Part B TTI-2f"}
+    }
+  }
+}

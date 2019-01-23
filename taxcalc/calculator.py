@@ -15,15 +15,20 @@ import copy
 import numpy as np
 import pandas as pd
 from taxcalc.functions import (net_salary_income, net_rental_income,
+                               income_business_profession,
                                total_other_income, gross_total_income,
-                               itemized_deductions, taxable_total_income,
+                               itemized_deductions, deduction_10AA,
+                               taxable_total_income,
                                tax_stcg_splrate, tax_ltcg_splrate,
-                               pit_liability)
+                               tax_specialrates, current_year_losses,
+                               brought_fwd_losses, agri_income, pit_liability)
+from taxcalc.corpfunctions import (corp_income_business_profession,
+                                   corp_GTI_before_set_off, GTI_and_losses,
+                                   cit_liability)
 from taxcalc.policy import Policy
 from taxcalc.records import Records
-from taxcalc.utils import (DIST_VARIABLES, create_distribution_table,
-                           DIFF_VARIABLES, create_difference_table,
-                           create_diagnostic_table)
+from taxcalc.corprecords import CorpRecords
+from taxcalc.utils import DIST_VARIABLES, create_distribution_table
 # import pdb
 
 
@@ -37,6 +42,9 @@ class Calculator(object):
         this argument must be specified and object is copied for internal use
 
     records: Records class object
+        this argument must be specified and object is copied for internal use
+
+    corprecords: CorpRecords class object
         this argument must be specified and object is copied for internal use
 
     verbose: boolean
@@ -62,16 +70,19 @@ class Calculator(object):
     objects is as follows:
          pol = Policy()
          rec = Records()
-         calc1 = Calculator(policy=pol, records=rec)  # current-law
+         crec = CorpRecords()
+         # Current law
+         calc1 = Calculator(policy=pol, records=rec, corprecords=crec)
          pol.implement_reform(...)
-         calc2 = Calculator(policy=pol, records=rec)  # reform
+         # Reform
+         calc2 = Calculator(policy=pol, records=rec, corprecords=crec)
     All calculations are done on the internal copies of the Policy and
     Records objects passed to each of the two Calculator constructors.
     """
     # pylint: disable=too-many-public-methods
 
-    def __init__(self, policy=None, records=None, verbose=True,
-                 sync_years=True):
+    def __init__(self, policy=None, records=None, corprecords=None,
+                 verbose=True, sync_years=True):
         # pylint: disable=too-many-arguments,too-many-branches
         if isinstance(policy, Policy):
             self.__policy = copy.deepcopy(policy)
@@ -81,6 +92,10 @@ class Calculator(object):
             self.__records = copy.deepcopy(records)
         else:
             raise ValueError('must specify records as a Records object')
+        if isinstance(corprecords, CorpRecords):
+            self.__corprecords = copy.deepcopy(corprecords)
+        else:
+            raise ValueError('must specify records as a CorpRecords object')
         if self.__policy.current_year < self.__records.data_year:
             self.__policy.set_year(self.__records.data_year)
         current_year_is_data_year = (
@@ -102,6 +117,7 @@ class Calculator(object):
                       'extrapolated your data to ' +
                       str(self.__records.current_year) + '.')
         assert self.__policy.current_year == self.__records.current_year
+        assert self.__policy.current_year == self.__corprecords.current_year
         self.__stored_records = None
 
     def increment_year(self):
@@ -110,6 +126,7 @@ class Calculator(object):
         """
         next_year = self.__policy.current_year + 1
         self.__records.increment_year()
+        self.__corprecords.increment_year()
         self.__policy.set_year(next_year)
 
     def advance_to_year(self, year):
@@ -126,25 +143,47 @@ class Calculator(object):
             self.increment_year()
         assert self.current_year == year
 
-    def calc_all(self, zero_out_calc_vars=False):
+    def calc_all(self):
         """
         Call all tax-calculation functions for the current_year.
         """
         # pylint: disable=too-many-function-args,no-value-for-parameter
         # conducts static analysis of Calculator object for current_year
         assert self.__records.current_year == self.__policy.current_year
-        if zero_out_calc_vars:
-            self.__records.zero_out_changing_calculated_vars()
+        assert self.__corprecords.current_year == self.__policy.current_year
+        self.__records.zero_out_changing_calculated_vars()
+        # For now, don't zero out for corporate
         # pdb.set_trace()
+        # Corporate calculations
+        net_rental_income(self.__policy, self.__corprecords)
+        corp_income_business_profession(self.__policy, self.__corprecords)
+        total_other_income(self.__policy, self.__corprecords)
+        current_year_losses(self.__policy, self.__corprecords)
+        brought_fwd_losses(self.__policy, self.__corprecords)
+        corp_GTI_before_set_off(self.__policy, self.__corprecords)
+        GTI_and_losses(self.__policy, self.__corprecords)
+        itemized_deductions(self.__policy, self.__corprecords)
+        deduction_10AA(self.__policy, self.__corprecords)
+        taxable_total_income(self.__policy, self.__corprecords)
+        tax_stcg_splrate(self.__policy, self.__corprecords)
+        tax_ltcg_splrate(self.__policy, self.__corprecords)
+        tax_specialrates(self.__policy, self.__corprecords)
+        cit_liability(self.__policy, self.__corprecords)
+        # Individual calculations
         net_salary_income(self.__policy, self.__records)
         net_rental_income(self.__policy, self.__records)
+        income_business_profession(self.__policy, self.__records)
         total_other_income(self.__policy, self.__records)
+        current_year_losses(self.__policy, self.__records)
+        brought_fwd_losses(self.__policy, self.__records)
         gross_total_income(self.__policy, self.__records)
         itemized_deductions(self.__policy, self.__records)
+        agri_income(self.__policy, self.__records)
         taxable_total_income(self.__policy, self.__records)
-        tax_stcg_splrate(self)
-        tax_ltcg_splrate(self)
-        pit_liability(self)
+        tax_stcg_splrate(self.__policy, self.__records)
+        tax_ltcg_splrate(self.__policy, self.__records)
+        tax_specialrates(self.__policy, self.__records)
+        pit_liability(self.__policy, self.__records)
         # TODO: ADD: expanded_income(self.__policy, self.__records)
         # TODO: ADD: aftertax_income(self.__policy, self.__records)
 
@@ -177,17 +216,7 @@ class Calculator(object):
         Return pandas DataFrame containing the DIST_TABLE_COLUMNS variables
         from embedded Records object.
         """
-        pdf = self.dataframe(DIST_VARIABLES)
-        # weighted count of itemized-deduction returns
-        pdf['num_returns_ItemDed'] = pdf['weight'].where(
-            pdf['c04470'] > 0., 0.)
-        # weighted count of standard-deduction returns
-        pdf['num_returns_StandardDed'] = pdf['weight'].where(
-            pdf['standard'] > 0., 0.)
-        # weight count of returns with positive Alternative Minimum Tax (AMT)
-        pdf['num_returns_AMT'] = pdf['weight'].where(
-            pdf['c09600'] > 0., 0.)
-        return pdf
+        return self.dataframe(DIST_VARIABLES)
 
     def array(self, variable_name, variable_value=None):
         """
@@ -201,6 +230,21 @@ class Calculator(object):
             return getattr(self.__records, variable_name)
         assert isinstance(variable_value, np.ndarray)
         setattr(self.__records, variable_name, variable_value)
+        return None
+
+    def carray(self, variable_name, variable_value=None):
+        """
+        Corporate record version of array() function.
+        If variable_value is None, return numpy ndarray containing the
+         named variable in embedded Records object.
+        If variable_value is not None, set named variable in embedded Records
+         object to specified variable_value and return None (which can be
+         ignored).
+        """
+        if variable_value is None:
+            return getattr(self.__corprecords, variable_name)
+        assert isinstance(variable_value, np.ndarray)
+        setattr(self.__corprecords, variable_name, variable_value)
         return None
 
     def n65(self):
@@ -345,15 +389,16 @@ class Calculator(object):
         del diag
         return pd.concat(tlist, axis=1)
 
-    def distribution_tables(self, calc, groupby):
+    def distribution_tables(self, calc, groupby,
+                            averages=False, scaling=True):
         """
-        Get results from self and calc, sort them by expanded_income into
-        table rows defined by groupby, compute grouped statistics, and
+        Get results from self and calc, sort them by GTI into table
+        rows defined by groupby, compute grouped statistics, and
         return tables as a pair of Pandas dataframes.
         This method leaves the Calculator object(s) unchanged.
         Note that the returned tables have consistent income groups (based
-        on the self expanded_income) even though the baseline expanded_income
-        in self and the reform expanded_income in calc are different.
+        on the self GTI) even though the baseline GTI in self and
+        the reform GTI in calc are different.
 
         Parameters
         ----------
@@ -364,6 +409,18 @@ class Calculator(object):
         groupby : String object
             options for input: 'weighted_deciles', 'standard_income_bins'
             determines how the columns in resulting Pandas DataFrame are sorted
+
+        averages : boolean
+            specifies whether or not monetary table entries are aggregates or
+            averages (default value of False implies entries are aggregates)
+
+        scaling : boolean
+            specifies whether or not monetary table entries are scaled to
+            billions and rounded to three decimal places when averages=False,
+            or when averages=True, to thousands and rounded to three decimal
+            places.  Regardless of the value of averages, non-monetary table
+            entries are scaled to millions and rounded to three decimal places
+            (default value of False implies entries are scaled and rounded)
 
         Return and typical usage
         ------------------------
@@ -388,12 +445,12 @@ class Calculator(object):
         # nested function used only by this method
         def have_same_income_measure(calc1, calc2):
             """
-            Return true if calc1 and calc2 contain the same expanded_income;
+            Return true if calc1 and calc2 contain the same GTI;
             otherwise, return false.  (Note that "same" means nobody's
-            expanded_income differs by more than one cent.)
+            GTI differs by more than one cent.)
             """
-            im1 = calc1.array('expanded_income')
-            im2 = calc2.array('expanded_income')
+            im1 = calc1.array('GTI')
+            im2 = calc2.array('GTI')
             return np.allclose(im1, im2, rtol=0.0, atol=0.01)
         # main logic of method
         assert calc is None or isinstance(calc, Calculator)
@@ -403,8 +460,9 @@ class Calculator(object):
             assert np.allclose(self.array('weight'),
                                calc.array('weight'))  # rows in same order
         var_dataframe = self.distribution_table_dataframe()
-        imeasure = 'expanded_income'
-        dt1 = create_distribution_table(var_dataframe, groupby, imeasure)
+        imeasure = 'GTI'
+        dt1 = create_distribution_table(var_dataframe, groupby, imeasure,
+                                        averages, scaling)
         del var_dataframe
         if calc is None:
             dt2 = None
@@ -413,11 +471,12 @@ class Calculator(object):
             assert calc.array_len == self.array_len
             var_dataframe = calc.distribution_table_dataframe()
             if have_same_income_measure(self, calc):
-                imeasure = 'expanded_income'
+                imeasure = 'GTI'
             else:
-                imeasure = 'expanded_income_baseline'
-                var_dataframe[imeasure] = self.array('expanded_income')
-            dt2 = create_distribution_table(var_dataframe, groupby, imeasure)
+                imeasure = 'GTI_baseline'
+                var_dataframe[imeasure] = self.array('GTI')
+            dt2 = create_distribution_table(var_dataframe, groupby, imeasure,
+                                            averages, scaling)
             del var_dataframe
         return (dt1, dt2)
 
