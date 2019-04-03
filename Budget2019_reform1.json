@@ -1,0 +1,6 @@
+{
+  "policy": {
+  // increase standard deduction to 50000
+  "_std_deduction": {"2020": [50000]}
+  }
+}

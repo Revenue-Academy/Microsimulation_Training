@@ -1,0 +1,6 @@
+{
+  "policy": {
+  // increase rebate threshold to 5,00,000
+	"_rebate_thd": {"2020": [500000]}
+  }
+}
