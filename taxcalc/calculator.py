@@ -22,12 +22,15 @@ from taxcalc.functions import (net_salary_income, net_rental_income,
                                tax_stcg_splrate, tax_ltcg_splrate,
                                tax_specialrates, current_year_losses,
                                brought_fwd_losses, agri_income, pit_liability)
-from taxcalc.corpfunctions import (corp_income_business_profession,
+from taxcalc.corpfunctions import (depreciation_PM,
+                                   corp_income_business_profession,
                                    corp_GTI_before_set_off, GTI_and_losses,
                                    cit_liability)
+from taxcalc.gstfunctions import (gst_liability_item)
 from taxcalc.policy import Policy
 from taxcalc.records import Records
 from taxcalc.corprecords import CorpRecords
+from taxcalc.gstrecords import GSTRecords
 from taxcalc.utils import DIST_VARIABLES, create_distribution_table
 # import pdb
 
@@ -45,6 +48,9 @@ class Calculator(object):
         this argument must be specified and object is copied for internal use
 
     corprecords: CorpRecords class object
+        this argument must be specified and object is copied for internal use
+
+    gstrecords: GSTRecords class object
         this argument must be specified and object is copied for internal use
 
     verbose: boolean
@@ -70,19 +76,22 @@ class Calculator(object):
     objects is as follows:
          pol = Policy()
          rec = Records()
+         grec = GSTRecords()
          crec = CorpRecords()
          # Current law
-         calc1 = Calculator(policy=pol, records=rec, corprecords=crec)
+         calc1 = Calculator(policy=pol, records=rec, corprecords=crec,
+                            gstrecords=grec)
          pol.implement_reform(...)
          # Reform
-         calc2 = Calculator(policy=pol, records=rec, corprecords=crec)
+         calc2 = Calculator(policy=pol, records=rec, corprecords=crec,
+                            gstrecords=grec)
     All calculations are done on the internal copies of the Policy and
     Records objects passed to each of the two Calculator constructors.
     """
     # pylint: disable=too-many-public-methods
 
     def __init__(self, policy=None, records=None, corprecords=None,
-                 verbose=True, sync_years=True):
+                 gstrecords=None, verbose=True, sync_years=True):
         # pylint: disable=too-many-arguments,too-many-branches
         if isinstance(policy, Policy):
             self.__policy = copy.deepcopy(policy)
@@ -92,6 +101,10 @@ class Calculator(object):
             self.__records = copy.deepcopy(records)
         else:
             raise ValueError('must specify records as a Records object')
+        if isinstance(gstrecords, GSTRecords):
+            self.__gstrecords = copy.deepcopy(gstrecords)
+        else:
+            raise ValueError('must specify records as a GSTRecords object')
         if isinstance(corprecords, CorpRecords):
             self.__corprecords = copy.deepcopy(corprecords)
         else:
@@ -117,6 +130,7 @@ class Calculator(object):
                       'extrapolated your data to ' +
                       str(self.__records.current_year) + '.')
         assert self.__policy.current_year == self.__records.current_year
+        assert self.__policy.current_year == self.__gstrecords.current_year
         assert self.__policy.current_year == self.__corprecords.current_year
         self.__stored_records = None
 
@@ -126,6 +140,7 @@ class Calculator(object):
         """
         next_year = self.__policy.current_year + 1
         self.__records.increment_year()
+        self.__gstrecords.increment_year()
         self.__corprecords.increment_year()
         self.__policy.set_year(next_year)
 
@@ -150,12 +165,14 @@ class Calculator(object):
         # pylint: disable=too-many-function-args,no-value-for-parameter
         # conducts static analysis of Calculator object for current_year
         assert self.__records.current_year == self.__policy.current_year
+        assert self.__gstrecords.current_year == self.__policy.current_year
         assert self.__corprecords.current_year == self.__policy.current_year
         self.__records.zero_out_changing_calculated_vars()
         # For now, don't zero out for corporate
         # pdb.set_trace()
         # Corporate calculations
         net_rental_income(self.__policy, self.__corprecords)
+        depreciation_PM(self.__policy, self.__corprecords)
         corp_income_business_profession(self.__policy, self.__corprecords)
         total_other_income(self.__policy, self.__corprecords)
         current_year_losses(self.__policy, self.__corprecords)
@@ -184,6 +201,12 @@ class Calculator(object):
         tax_ltcg_splrate(self.__policy, self.__records)
         tax_specialrates(self.__policy, self.__records)
         pit_liability(self.__policy, self.__records)
+        # GST calculations
+        # agg_consumption(self.__policy, self.__gstrecords)
+        # gst_liability_cereal(self.__policy, self.__gstrecords)
+        # gst_liability_other(self.__policy, self.__gstrecords)
+        gst_liability_item(self)
+        # gst_liability_item(self.__policy, self.__gstrecords)
         # TODO: ADD: expanded_income(self.__policy, self.__records)
         # TODO: ADD: aftertax_income(self.__policy, self.__records)
 
@@ -192,6 +215,18 @@ class Calculator(object):
         Return all-filing-unit weighted total of named Records variable.
         """
         return (self.array(variable_name) * self.array('weight')).sum()
+
+    def weighted_garray(self, variable_name):
+        """
+        Return all-filing-unit weighted total of named Records variable.
+        """
+        return (self.garray(variable_name) * self.garray('weight'))
+
+    def weighted_total_garray(self, variable_name):
+        """
+        Return all-filing-unit weighted total of named Records variable.
+        """
+        return (self.garray(variable_name) * self.garray('weight')).sum()
 
     def total_weight(self):
         """
@@ -245,6 +280,21 @@ class Calculator(object):
             return getattr(self.__corprecords, variable_name)
         assert isinstance(variable_value, np.ndarray)
         setattr(self.__corprecords, variable_name, variable_value)
+        return None
+
+    def garray(self, variable_name, variable_value=None):
+        """
+        GST record version of array() function.
+        If variable_value is None, return numpy ndarray containing the
+         named variable in embedded Records object.
+        If variable_value is not None, set named variable in embedded Records
+         object to specified variable_value and return None (which can be
+         ignored).
+        """
+        if variable_value is None:
+            return getattr(self.__gstrecords, variable_name)
+        assert isinstance(variable_value, np.ndarray)
+        setattr(self.__gstrecords, variable_name, variable_value)
         return None
 
     def n65(self):
@@ -1009,6 +1059,7 @@ class Calculator(object):
             msg = 'illegal key(s) "{}" in policy reform file'
             raise ValueError(msg.format(illegal_keys))
         # convert raw_dict['policy'] dictionary into prdict
+        raw_dict_policy = raw_dict['policy']
         tdict = Policy.translate_json_reform_suffixes(raw_dict['policy'])
         prdict = Calculator._convert_parameter_dict(tdict)
         return prdict
