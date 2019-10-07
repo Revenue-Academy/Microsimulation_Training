@@ -17,7 +17,7 @@ def remove_decimal(S):
     return S
 
 def ind_currency(curr):
-    curr_str = format_currency(curr, 'INR', locale='en_IN').replace(u'\xa0', u' ')
+    curr_str = format_currency(curr, 'USD', locale='en_IN').replace(u'\xa0', u' ')
     return(remove_decimal(curr_str))
 
 def convert_df(df, cols):
@@ -86,14 +86,14 @@ for year in range(START_YEAR, END_YEAR+1):
         print(f'****************  Total Tax Collection for {year}', end=' ')
         print('****************')
         print('\n')
-        print(f'Current Law: Tax Collection in Rs. Cr. for {year}:', end=' ')
-        print(f'{weighted_tax1 * 1e-7:,.2f}')
-        print(f'Reform     : Tax Collection in Rs. Cr. for {year}:', end=' ')
-        print(f'{weighted_tax2 * 1e-7:,.2f}')
+        print(f'Current Law: Tax Collection in billions. for {year}:', end=' ')
+        print(f'{weighted_tax1 * 1e-9:,.2f}')
+        print(f'Reform     : Tax Collection in billions. for {year}:', end=' ')
+        print(f'{weighted_tax2 * 1e-9:,.2f}')
         print('               Difference in Tax Collection:', end=' ')
-        print(f'{(weighted_tax2-weighted_tax1) * 1e-7:,.2f} Cr.')
+        print(f'{(weighted_tax2-weighted_tax1) * 1e-9:,.2f} Cr.')
         print('\n')
-        print(f'Representing: {total_weights * 1e-5:,.2f} Lakh taxpayers')
+        print(f'Representing: {total_weights * 1e-9:,.2f} billion taxpayers')
         print('\n')
         for output_in_averages in [False, True]:
             output_categories = 'standard_income_bins'
@@ -115,28 +115,28 @@ for year in range(START_YEAR, END_YEAR+1):
             dt2 = dt2.fillna(0)
             if output_in_averages:
                 print('***************************  Average Tax Burden ', end=' ')
-                print(f'(in Rs.) per Taxpayer for {year}  ***************************')
+                print(f'(in $) per Taxpayer for {year}  ***************************')
                 pd.options.display.float_format = '{:.0f}'.format
             else:
                 print('*****************  Distribution Tables ', end=' ')
-                print(f'for Total Tax Collection (in Rs. crores) for {year} *********')
+                print(f'for Total Tax Collection (in $ crores) for {year} *********')
                 #pd.options.display.float_format = '{:,.0f}'.format
                 pd.options.display.float_format = '{:.0f}'.format
             
-            # list of columns for printing in rupees
+            # list of columns for printing in $
             col_list1 = list(dt1.columns)
             col_list1.remove('Income_Bracket')
             col_list1.remove('weight')
             print('\n')
             print('  *** CURRENT-LAW DISTRIBUTION TABLE ***')
             #print('\n')
-            print(convert_df(dt1, col_list1))
+            print(dt1)
             print('\n')
             print('  *** POLICY-REFORM DISTRIBUTION TABLE ***')
             #print('\n')
             col_list2 = col_list1
             col_list2.append('pitax_diff')
-            print(convert_df(dt2, col_list2))
+            print(dt2)
             print('\n')
             # print text version of each complete distribution table to a file
             if output_in_averages:
@@ -165,19 +165,19 @@ for year in range(START_YEAR, END_YEAR+1):
 # Print the total taxes in the end
 
 for year in range(BASE_YEAR, END_YEAR+1):
-    wtd_tax_clp_rs = ind_currency(wtd_tax_clp[year] * 1e-7)
-    wtd_tax_ref_rs = ind_currency(wtd_tax_ref[year] * 1e-7)
-    wtd_tax_diff_rs = ind_currency((wtd_tax_ref[year]-wtd_tax_clp[year]) * 1e-7)
+    wtd_tax_clp_rs = ind_currency(wtd_tax_clp[year] * 1e-9)
+    wtd_tax_ref_rs = ind_currency(wtd_tax_ref[year] * 1e-9)
+    wtd_tax_diff_rs = ind_currency((wtd_tax_ref[year]-wtd_tax_clp[year]) * 1e-9)
     print(f'****************  Total Tax Collection for {year}', end=' ')
     print('****************')
     #print('\n')
-    print(f'Current Law: Tax Collection in Rs. Cr. for {year}:', end=' ')
-    print(f'{ind_currency(wtd_tax_clp[year] * 1e-7)}')
-    print(f'Reform     : Tax Collection in Rs. Cr. for {year}:', end=' ')
-    print(f'{ind_currency(wtd_tax_ref[year] * 1e-7)}')
+    print(f'Current Law: Tax Collection in billions. for {year}:', end=' ')
+    print(f'{wtd_tax_clp[year] * 1e-9}')
+    print(f'Reform     : Tax Collection in billions. for {year}:', end=' ')
+    print(f'{wtd_tax_ref[year] * 1e-9}')
     print('                   Difference in Tax Collection:', end=' ')
-    print(f'{ind_currency((wtd_tax_ref[year]-wtd_tax_clp[year]) * 1e-7)} Cr.')
-    print(f'Representing: {wtd_tot[year] * 1e-5:,.2f} Lakh taxpayers')
+    print(f'{(wtd_tax_ref[year]-wtd_tax_clp[year]) * 1e-9} Cr.')
+    print(f'Representing: {wtd_tot[year] * 1e-5:,.2f} billion taxpayers')
     print('\n')
 
 
@@ -222,9 +222,9 @@ for year in range(BASE_YEAR+1, END_YEAR+1):
     df = pd.merge(df, a[year], how="inner", on="Income_Bracket")
 
 df.set_index('Income_Bracket', inplace=True)
-df.to_csv('dist-table-all-years.csv', index=True)
+df.to_csv('dist-table-all-yea$csv', index=True)
 
-df = pd.read_csv('dist-table-all-years.csv')
+df = pd.read_csv('dist-table-all-yea$csv')
 df.set_index('Income_Bracket', inplace=True)
 
 # generating bar chart for Total Tax collection due to current law and reform 
@@ -285,7 +285,7 @@ ax.bar(x_pos, pitax_diff_list,
 ax.set_xticks(x_pos)
 ax.set_xticklabels(pitax_inc_brac_list)
 #ax.invert_yaxis()  # labels read top-to-bottom
-ax.set_ylabel('Rupees')
+ax.set_ylabel('$')
 ax.set_xlabel('Income Bracket')
 ax.invert_yaxis()
 ax.set_title('Change in Average Tax Burden Due to Reform in 2020')
@@ -314,7 +314,7 @@ ax.bar(x_pos, pitax_diff_totals_ref_list, width,
 ax.set_xticks(x_pos)
 ax.set_xticklabels(years)
 #ax.invert_yaxis()  # labels read top-to-bottom
-ax.set_ylabel('Rupees in Crores')
+ax.set_ylabel('$ in Crores')
 ax.set_xlabel('Years')
 ax.invert_yaxis()
 ax.set_title('Change in Total Tax Burden Due to Reform in 2020', fontweight="bold")

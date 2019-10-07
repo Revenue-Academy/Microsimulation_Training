@@ -54,5 +54,9 @@ column_order = dumpdf.columns
 
 assert len(dumpdf.index) == calc1.array_len
 
+
+
 dumpdf.to_csv('app0-dump.csv', columns=column_order,
               index=False, float_format='%.0f')
+
+print(dumpdf)

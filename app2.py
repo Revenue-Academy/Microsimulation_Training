@@ -1,5 +1,5 @@
 """
-app1.py illustrates use of pitaxcalc-demo release 2.0.0 (India version).
+app1.py illustrates use of pitaxcalc-demo release 2.0.0 (World Bank Training version).
 USAGE: python app2.py
 """
 from taxcalc import *
@@ -35,22 +35,8 @@ for year in range(2017, 2020):
     weighted_tax1 = calc1.weighted_total('pitax')
     weighted_tax2 = calc2.weighted_total('pitax')
     total_weights = calc1.total_weight()
-    print(f'Tax 1 for {year}: {weighted_tax1 * 1e-9:,.2f}')
-    print(f'Tax 2 for {year}: {weighted_tax2 * 1e-9:,.2f}')
-    print(f'Total weight for {year}: {total_weights * 1e-6:,.2f}')
+    print(f'Tax under Current Law for {year}: ${weighted_tax1 * 1e-9:,.2f} billions')
+    print(f'Tax under Reform for {year}: ${weighted_tax2 * 1e-9:,.2f} billions')
+    print(f'Total weight for {year}: {total_weights * 1e-6:,.2f} million')
 
-"""
-# dump out records for 2019
-dump_vars = ['FILING_SEQ_NO', 'AGEGRP', 'SALARIES', 'INCOME_HP',
-             'TOTAL_PROFTS_GAINS_BP', 'TOTAL_INCOME_OS', 'GTI', 'TTI']
-dumpdf = calc1.dataframe(dump_vars)
-dumpdf['pitax1'] = calc1.array('pitax')
-dumpdf['pitax2'] = calc2.array('pitax')
-dumpdf['pitax_diff'] = dumpdf['pitax2'] - dumpdf['pitax1']
-column_order = dumpdf.columns
 
-assert len(dumpdf.index) == calc1.array_len
-
-dumpdf.to_csv('app2-dump.csv', columns=column_order,
-              index=False, float_format='%.0f')
-"""

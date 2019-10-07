@@ -32,7 +32,7 @@ calc1 = Calculator(policy=pol, records=recs, gstrecords=grecs,
 calc1.calc_all()
 
 # specify Calculator object for reform in JSON file
-reform = Calculator.read_json_param_objects('GST_reform.json', None)
+reform = Calculator.read_json_param_objects('app1_reform.json', None)
 pol.implement_reform(reform['policy'])
 calc1 = Calculator(policy=pol, records=recs, gstrecords=grecs,
                    corprecords=crecs, verbose=False)
@@ -46,13 +46,10 @@ print(f'Tax 1 {weighted_tax1 * 1e-9:,.2f}')
 print(f'Tax 2 {weighted_tax2 * 1e-9:,.2f}')
 print(f'Total weight {total_weights * 1e-6:,.2f}')
 
-# Show results from corporate tax
-print(calc1.carray('NET_TAX_LIABILTY'))
-print(calc2.carray('NET_TAX_LIABILITY_A'))
 
 # dump out records
 dump_vars = ['FILING_SEQ_NO', 'AGEGRP', 'SALARIES', 'INCOME_HP',
-             'TOTAL_PROFTS_GAINS_BP', 'TOTAL_INCOME_OS', 'GTI', 'TTI']
+             'Income_BP', 'TOTAL_INCOME_OS', 'GTI', 'TTI']
 dumpdf = calc1.dataframe(dump_vars)
 dumpdf['pitax1'] = calc1.array('pitax')
 dumpdf['pitax2'] = calc2.array('pitax')
