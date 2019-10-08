@@ -20,7 +20,7 @@
     "SALARIES": {
       "type": "float",
       "desc": "Income from Salary",
-      "form": {"2017": "ITR-3 Part B-TI-1"}
+      "form": {"2017": "ITR-3 Part B-TI-1 or ITR-1 Part B B1"}
     },
     "INCOME_HP": {
       "type": "float",

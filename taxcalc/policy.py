@@ -41,7 +41,7 @@ class Policy(ParametersBase):
     class instance: Policy
     """
 
-    DEFAULTS_FILENAME = 'current_law_policy.json'
+    DEFAULTS_FILENAME = 'current_law_policy_training.json'
     JSON_START_YEAR = 2017  # remains the same unless earlier data added
     LAST_KNOWN_YEAR = 2017  # last year for which indexed param vals are known
     LAST_BUDGET_YEAR = 2023  # increases by one for every new assessment year
