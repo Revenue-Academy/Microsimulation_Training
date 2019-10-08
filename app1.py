@@ -34,17 +34,18 @@ calc1.calc_all()
 # specify Calculator object for reform in JSON file
 reform = Calculator.read_json_param_objects('app1_reform.json', None)
 pol.implement_reform(reform['policy'])
-calc1 = Calculator(policy=pol, records=recs, gstrecords=grecs,
+calc2 = Calculator(policy=pol, records=recs, gstrecords=grecs,
                    corprecords=crecs, verbose=False)
 calc2.calc_all()
+
 
 # compare aggregate results from two calculators
 weighted_tax1 = calc1.weighted_total('pitax')
 weighted_tax2 = calc2.weighted_total('pitax')
 total_weights = calc1.total_weight()
-print(f'Tax 1 {weighted_tax1 * 1e-9:,.2f}')
-print(f'Tax 2 {weighted_tax2 * 1e-9:,.2f}')
-print(f'Total weight {total_weights * 1e-6:,.2f}')
+print(f'Tax under Current Law: {weighted_tax1 * 1e-9:,.2f} billions')
+print(f'Tax under Reform: {weighted_tax2 * 1e-9:,.2f} billions')
+print(f'Total Returns: {total_weights * 1e-6:,.2f} million')
 
 
 # dump out records
