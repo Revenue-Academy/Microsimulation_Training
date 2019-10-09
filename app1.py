@@ -47,17 +47,3 @@ print(f'Tax under Current Law: {weighted_tax1 * 1e-9:,.2f} billions')
 print(f'Tax under Reform: {weighted_tax2 * 1e-9:,.2f} billions')
 print(f'Total Returns: {total_weights * 1e-6:,.2f} million')
 
-
-# dump out records
-dump_vars = ['FILING_SEQ_NO', 'AGEGRP', 'SALARIES', 'INCOME_HP',
-             'Income_BP', 'TOTAL_INCOME_OS', 'GTI', 'TTI']
-dumpdf = calc1.dataframe(dump_vars)
-dumpdf['pitax1'] = calc1.array('pitax')
-dumpdf['pitax2'] = calc2.array('pitax')
-dumpdf['pitax_diff'] = dumpdf['pitax2'] - dumpdf['pitax1']
-column_order = dumpdf.columns
-
-assert len(dumpdf.index) == calc1.array_len
-
-dumpdf.to_csv('app1-dump.csv', columns=column_order,
-              index=False, float_format='%.0f')

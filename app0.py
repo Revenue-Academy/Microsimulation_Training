@@ -58,5 +58,11 @@ assert len(dumpdf.index) == calc1.array_len
 
 dumpdf.to_csv('app0-dump.csv', columns=column_order,
               index=False, float_format='%.0f')
+print(dumpdf, '\n\n')
 
-print(dumpdf)
+# compare aggregate results from two calculators
+weighted_tax1 = calc1.weighted_total('pitax')
+total_weights = calc1.total_weight()
+print(f'Tax under Current Law: {weighted_tax1 * 1e-9:,.2f} billions')
+print(f'Total Returns: {total_weights * 1e-6:,.2f} million')
+
