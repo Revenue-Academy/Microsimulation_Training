@@ -5,6 +5,8 @@ CHECK: Use your favorite Windows diff utility to confirm that app1.res is
        the same as the app1.out file that is in the repository.
 """
 from taxcalc import *
+import numpy as np
+import matplotlib.pyplot as plt
 
 # create Records object containing pit.csv and pit_weights.csv input data
 recs = Records()
@@ -48,3 +50,18 @@ print(f'Tax under Current Law: {weighted_tax1 * 1e-9:,.2f} billions')
 print(f'Tax under Reform: {weighted_tax2 * 1e-9:,.2f} billions')
 print(f'Total Returns: {total_weights * 1e-6:,.2f} million')
 print(f'Change in taxes due to reform: {weighted_tax_diff * 1e-6:,.2f} million')
+
+output_categories = 'standard_income_bins'
+dt1, dt2 = calc1.distribution_tables(calc2, output_categories, 
+                                     averages = True,
+                                     scaling = True)
+dt1 = dt1.fillna(0)
+print(dt1)
+dt2['pitax_diff'] = dt2['pitax'] - dt1['pitax']
+dt2['etr'] = (dt2['pitax']/dt2['GTI'])*100
+dt2 = dt2.fillna(0)    
+print(dt2)
+dt2[['pitax', 'pitax_diff']].plot.bar()
+plt.show()
+
+dt2['etr'].plot.line()
