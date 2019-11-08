@@ -41,6 +41,15 @@ def calc_income_house_property(HP_deduction, INCOME_HP, Income_House_Property):
     return Income_House_Property
 
 @iterate_jit(nopython=True)
+def calc_tax_LTCG(LT_CG_RATE1, LT_CG_RATE2, LT_CG_AMT_1, LT_CG_AMT_2, Tax_LT_CG_RATE1, Tax_LT_CG_RATE2):
+    """
+    Computes The Long Term Capital Gains.
+    """
+    Tax_LT_CG_RATE1 = LT_CG_RATE1 * LT_CG_AMT_1
+    Tax_LT_CG_RATE2 = LT_CG_RATE2 * LT_CG_AMT_2    
+    return (Tax_LT_CG_RATE1, Tax_LT_CG_RATE2)
+
+@iterate_jit(nopython=True)
 def gross_total_income(Income_Salary, GTI, Income_House_Property):
     """
     Compute GTI including capital gains amounts taxed at special rates.
@@ -59,7 +68,7 @@ def taxable_total_income(GTI, deductions, TTI):
 
 @iterate_jit(nopython=True)
 def pit_liability(rate1, rate2, rate3, rate4, tbrk1, tbrk2, tbrk3, tbrk4,
-                  TTI, pitax):
+                  TTI, Tax_LT_CG_RATE1, Tax_LT_CG_RATE2, pitax):
     """
     Compute tax liability given the progressive tax rate schedule specified
     by the (marginal tax) rate* and (upper tax bracket) brk* parameters and
@@ -76,5 +85,5 @@ def pit_liability(rate1, rate2, rate3, rate4, tbrk1, tbrk2, tbrk3, tbrk4,
                        rate2 * min(tbrk2 - tbrk1, max(0., taxinc - tbrk1)) +
                        rate3 * min(tbrk3 - tbrk2, max(0., taxinc - tbrk2)) +
                        rate4 * max(0., taxinc - tbrk3))
-    pitax = tax 
+    pitax = tax + Tax_LT_CG_RATE1 + Tax_LT_CG_RATE2
     return (pitax)
