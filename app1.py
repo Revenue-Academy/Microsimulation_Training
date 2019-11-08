@@ -43,7 +43,8 @@ calc2.calc_all()
 weighted_tax1 = calc1.weighted_total('pitax')
 weighted_tax2 = calc2.weighted_total('pitax')
 total_weights = calc1.total_weight()
+weighted_tax_diff= weighted_tax2-weighted_tax1
 print(f'Tax under Current Law: {weighted_tax1 * 1e-9:,.2f} billions')
 print(f'Tax under Reform: {weighted_tax2 * 1e-9:,.2f} billions')
 print(f'Total Returns: {total_weights * 1e-6:,.2f} million')
-
+print(f'Change in taxes due to reform: {weighted_tax_diff * 1e-6:,.2f} million')

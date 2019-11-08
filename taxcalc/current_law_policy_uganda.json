@@ -6,7 +6,9 @@
         "notes": "",
         "row_var": "AYEAR",
         "row_label": [
-            "2017"
+            "2017",
+            "2018",
+            "2019"
         ],
         "start_year": 2017,
         "cpi_inflatable": true,
@@ -16,7 +18,9 @@
         "boolean_value": false,
         "integer_value": false,
         "value": [
-            60000
+            30000,
+            30000,
+            40000
         ],
         "range": {
             "min": 0,
@@ -26,14 +30,16 @@
         "out_of_range_maxmsg": "",
         "out_of_range_action": "stop"
     },
-    "_HP_deduction": {
-        "long_name": "House stuff Deduction ",
+        "_HP_deduction": {
+        "long_name": "Deduction from income House Property",
         "description": "This amount is deducted from salary to compute taxable incomee.",
         "itr_ref": "Section 16(ia) of the Income Tax Act",
         "notes": "",
         "row_var": "AYEAR",
         "row_label": [
-            "2017"
+            "2017",
+            "2018",
+            "2019"
         ],
         "start_year": 2017,
         "cpi_inflatable": true,
@@ -43,6 +49,8 @@
         "boolean_value": false,
         "integer_value": false,
         "value": [
+            5000,
+            5000,
             5000
         ],
         "range": {
@@ -85,19 +93,27 @@
         "description": "Taxable income below this threshold is taxed at tax rate 1.",
         "itr_ref": "ITR-1 instructions, Tax Computation Table",
         "notes": "",
-        "row_var": "",
+        "row_var": "AYEAR",
         "row_label": [
             "2017"
         ],
         "start_year": 2017,
         "cpi_inflatable": true,
         "cpi_inflated": false,
-        "col_var": "",
-        "col_label": "",
+        "col_var": "AGEGRP",
+        "col_label": [
+            "<60",
+            "60-79",
+            ">=80"
+        ],
         "boolean_value": false,
         "integer_value": false,
         "value": [
-                    250000.0
+            [
+                250000.0,
+                300000.0,
+                500000.0
+            ]
         ],
         "range": {
             "min": 0,
@@ -148,12 +164,20 @@
         "start_year": 2017,
         "cpi_inflatable": true,
         "cpi_inflated": false,
-        "col_var": "",
-        "col_label": "",
+        "col_var": "AGEGRP",
+        "col_label": [
+            "<60",
+            "60-79",
+            ">=80"
+        ],
         "boolean_value": false,
         "integer_value": false,
         "value": [
-                    500000.0
+            [
+                500000.0,
+                500000.0,
+                500000.0
+            ]
         ],
         "range": {
             "min": "_tbrk1",
@@ -202,12 +226,20 @@
         "start_year": 2017,
         "cpi_inflatable": true,
         "cpi_inflated": false,
-        "col_var": "",
-        "col_label": "",
+        "col_var": "AGEGRP",
+        "col_label": [
+            "<60",
+            "60-79",
+            ">=80"
+        ],
         "boolean_value": false,
         "integer_value": false,
         "value": [
+            [
+                1000000.0,
+                1000000.0,
                 1000000.0
+            ]
         ],
         "range": {
             "min": "_tbrk2",
@@ -256,8 +288,12 @@
         "start_year": 2017,
         "cpi_inflatable": true,
         "cpi_inflated": false,
-        "col_var": "",
-        "col_label": "",
+        "col_var": "AGEGRP",
+        "col_label": [
+            "<60",
+            "60-79",
+            ">=80"
+        ],
         "boolean_value": false,
         "integer_value": false,
         "value": [

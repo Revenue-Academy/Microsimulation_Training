@@ -1,0 +1,253 @@
+{
+  "read": {
+    "FILING_SEQ_NO": {
+      "required": true,
+      "type": "int",
+      "desc": "Unique positive numeric identifier for filing unit",
+      "form": {"2017": "private info"}
+    },
+    "AGEGRP": {
+      "required": true,
+      "type": "int",
+      "desc": "Age group (0 ==> <60, 1 ==> 60-79, 2 ==> >=80)",
+      "form": {"2017": "ITR-1 didn't see this on the form"}
+    },
+    "AYEAR": {
+      "type": "int",
+      "desc": "Assessment year of ITR form that include prior year information",
+      "form": {"2017": "ITR-1 Assessment Year (first year)"}
+    },
+    "SALARIES": {
+      "type": "float",
+      "desc": "Income from Salary",
+      "form": {"2017": "ITR-3 Part B-TI-1 or ITR-1 Part B B1"}
+    },
+    "INCOME_HP": {
+      "type": "float",
+      "desc": "Income from House Property",
+      "form": {"2017": "ITR-3 Part B-TI-2"}
+    },
+    "PRFT_GAIN_BP_OTHR_SPECLTV_BUS": {
+      "type": "float",
+      "desc": "Profits and Gains from BP other than speculative business",
+      "form": {"2017": "ITR-3 Part B-TI-3i"}
+    },
+    "PRFT_GAIN_BP_SPECLTV_BUS": {
+      "type": "float",
+      "desc": "Profits and Gains from speculative business",
+      "form": {"2017": "ITR-3 Part B-TI-3ii"}
+    },
+    "PRFT_GAIN_BP_SPCFD_BUS": {
+      "type": "float",
+      "desc": "Income from specified Business",
+      "form": {"2017": "ITR-3 Part B-TI-3iii"}
+    },
+    "PRFT_GAIN_BP_INC_115BBF": {
+      "type": "float",
+      "desc": "Income from patents u/s 115BBF",
+      "form": {"2017": "ITR-3 Part B-TI-3iv"}
+    },
+    "ST_CG_AMT_1": {
+      "type": "float",
+      "desc": "111A (STCG on shares units on which where STT paid) @ 15% under current law",
+      "form": {"2017": "ITR-3 Part B-TI-4a-i"}
+    },
+    "ST_CG_AMT_2": {
+      "type": "float",
+      "desc": "115AD (STCG for FIIs on securities where STT not paid) @ 30% under current law",
+      "form": {"2017": "ITR-3 Part B-TI-4a-ii"}
+    },
+    "ST_CG_AMT_APPRATE": {
+      "type": "float",
+      "desc": "STCG at regular rates as per current law",
+      "form": {"2017": "ITR-3 Part B-TI-4a-iii"}
+    },
+    "LT_CG_AMT_1": {
+      "type": "float",
+      "desc": "LTCG at special rate 10% under current law",
+      "form": {"2017": "ITR-3 Part B-TI-4b-i"}
+    },
+    "LT_CG_AMT_2": {
+      "type": "float",
+      "desc": "LTCG at special rate 20% under current law",
+      "form": {"2017": "ITR-3 Part B-TI-4b-ii"}
+    },
+    "TOTAL_INCOME_OS": {
+      "type": "float",
+      "desc": "Income from Other Sources",
+      "form": {"2017": "ITR-3 Part B-TI-5d"}
+    },
+    "CYL_SET_OFF": {
+      "type": "float",
+      "desc": "Current Year Losses to be set off",
+      "form": {"2017": "ITR-3 Part B-TI 7"}
+    },
+    "BFL_SET_OFF_BALANCE": {
+      "type": "float",
+      "desc": "Brought Forward Losses to be set off",
+      "form": {"2017": "ITR-3 Part B-TI 9"}
+    },
+    "NET_AGRC_INCOME": {
+      "type": "float",
+      "desc": "Agricultural income used for rate purpose",
+      "form": {"2017": "ITR-3 Part B-TI 16"}
+    },
+    "TOTAL_DEDUC_VIA": {
+      "type": "float",
+      "desc": "Total itemized deductions",
+      "form": {"2017": "ITR-1 Part C-C1 and ITR-3 Part B-TI-13c"}
+    },
+    "TOTAL_DEDUC_10AA": {
+      "type": "float",
+      "desc": "Total deduction u/s 10AA",
+      "form": {"2017": "Column 11 of Part B-TI of ITR-6"}
+    },
+    "weight": {
+      "type": "float",
+      "desc": "Filing unit sampling weight",
+      "form": {"2017": "not used in filing unit tax calculations"}
+    }
+  },
+  "calc": {
+    "Income_Salary": {
+      "type": "float",
+      "desc": "Computed Income from Salary",
+      "form": {"2017": "ITR-3 Part B-TI-1"}
+    },
+    "Income_House_Property": {
+      "type": "float",
+      "desc": "Computed Income from House Property",
+      "form": {"2017": "ITR-3 Part B-TI-2"}
+    },
+    "Income_BP": {
+      "type": "float",
+      "desc": "Computed income from Business and Profession)",
+      "form": {"2017": "ITR-3 Part B-TI-3vi"}
+    },
+    "Tax_ST_CG_RATE1": {
+      "type": "float",
+      "desc": "Tax on Short Term Capital Gains at 15% under current law(Tax_SHORT_TERM_RATE1)",
+      "form": {"2017": "ITR-3 Schedule SI line 1"}
+    },
+    "Tax_ST_CG_RATE2": {
+      "type": "float",
+      "desc": "Tax on Short Term Capital Gains at 30% under current law (Tax_SHORT_TERM_RATE2)",
+      "form": {"2017": "ITR-3 Schedule SI line 2"}
+    },
+    "Tax_ST_CG_APPRATE": {
+      "type": "float",
+      "desc": "Tax on Short Term Capital Gains at the Regular Rate (Tax_SHORT_TERM_APPRATE)",
+      "form": {"2017": "ITR-3 Included in Part-B-TTI (2)(a)"}
+    },
+    "Total_Tax_STCG": {
+      "type": "float",
+      "desc": "Tax on all Short Term Capital Gains Tax_SHORT_TERM_RATE1 + Tax_SHORT_TERM_RATE2 + Tax_SHORT_TERM_APPRATE (Total_Tax_STCG)",
+      "form": {"2017": "Not in Form"}
+    },
+    "Tax_LT_CG_RATE1": {
+      "type": "float",
+      "desc": "Tax on Long Term Capital Gains at 10% under current law(Tax_LONG_TERM_RATE1)",
+      "form": {"2017": "ITR-3 Schedule SI sum of lines 3-9"}
+    },
+    "Tax_LT_CG_RATE2": {
+      "type": "float",
+      "desc": "Tax on Long Term Capital Gains at 20% under current law (Tax_LONG_TERM_RATE2)",
+      "form": {"2017": "ITR-3 Schedule SI line 10"}
+    },
+    "Total_Tax_LTCG": {
+      "type": "float",
+      "desc": "Tax on all Long Term Capital Gains Tax_LONG_TERM_RATE1 + Tax_LONG_TERM_RATE2 under current law(Total_Tax_LTCG)",
+      "form": {"2017": "Not in Form"}
+    },
+    "Total_Tax_Cap_Gains": {
+      "type": "float",
+      "desc": "Total Capital Gains Total_Tax_STCG + Total_Tax_LTCG (Total_Tax_Cap_Gains)",
+      "form": {"2017": "Not in Form"}
+    },
+    "CY_Losses": {
+      "type": "float",
+      "desc": "Computed Current Year Losses to be set off",
+      "form": {"2017": "ITR-3 Part B-TI line 7"}
+    },
+    "BF_Losses": {
+      "type": "float",
+      "desc": "Computed Brought Forward Losses to be set off",
+      "form": {"2017": "ITR-3 Part B-TI line 9"}
+    },
+    "GTI": {
+      "type": "float",
+      "desc": "Gross Total Income (GTI)",
+      "form": {"2017": "ITR-3 Part B-TI line 10"}
+    },
+    "TTI": {
+      "type": "float",
+      "desc": "Taxable Total Income (TTI)",
+      "form": {"2017": "ITR-3 Part B-TI line 14"}
+    },
+    "TI_special_rates": {
+      "type": "float",
+      "desc": "Taxable Total Income (TTI) taxed at special rates",
+      "form": {"2017": "ITR-3 Part B-TI line 15"}
+    },
+    "Aggregate_Income": {
+      "type": "float",
+      "desc": "Income taxed at normal rates TTI minus TI_special_rates",
+      "form": {"2017": "ITR-3 Part B-TI line 17"}
+    },
+    "Income_Rate_Purpose": {
+      "type": "float",
+      "desc": "Agricultural/any other Income used for rate purpose",
+      "form": {"2017": "ITR-3 Part B-TI 16"}
+    },
+    "deductions": {
+      "type": "float",
+      "desc": "Total itemized deductions",
+      "form": {"2017": "ITR-1 Part C-C1 and ITR-3 Part B-TI-13c"}
+    },
+    "deduction_10AA": {
+      "type": "float",
+      "desc": "Total deduction u/s 10AA",
+      "form": {"2017": "Part 11 of Part-B-TI of ITR 6"}
+    },
+    "tax_Aggregate_Income": {
+      "type": "float",
+      "desc": "Tax liability on Income taxed at normal rates",
+      "form": {"2017": "ITR-3 Part B TTI-2a"}
+    },
+    "tax_TI_special_rates": {
+      "type": "float",
+      "desc": "Tax liability on TI taxed at special rates",
+      "form": {"2017": "ITR-3 Part B TTI-2b"}
+    },
+    "rebate_agri": {
+      "type": "float",
+      "desc": "Rebate on agricultural income",
+      "form": {"2017": "ITR-3 Part B TTI-2c"}
+    },
+    "tax_TTI": {
+      "type": "float",
+      "desc": "Tax liability on TI which is tax_Aggregate_Income plus tax_TI_special_rates less agricultural rebate",
+      "form": {"2017": "ITR-3 Part B TTI-2d"}
+    },
+    "rebate": {
+      "type": "float",
+      "desc": "Rebate as non-refundable tax credit",
+      "form": {"2017": "ITR-3 Part B TTI-2e"}
+    },
+    "surcharge": {
+      "type": "float",
+      "desc": "Surcharge on income above surcharge_thd",
+      "form": {"2017": "ITR-3 Part B TTI-2giii"}
+    },
+    "cess": {
+      "type": "float",
+      "desc": "cess on tax and surcharge",
+      "form": {"2017": "ITR-3 Part B TTI-2giii"}
+    },
+    "pitax": {
+      "type": "float",
+      "desc": "PIT liability",
+      "form": {"2017": "ITR-1 line D11"}
+    }
+  }
+}

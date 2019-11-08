@@ -30,6 +30,37 @@
         "out_of_range_maxmsg": "",
         "out_of_range_action": "stop"
     },
+    "_HP_deduction": {
+        "long_name": "Deduction from income House Property",
+        "description": "This amount is deducted from salary to compute taxable incomee.",
+        "itr_ref": "Section 16(ia) of the Income Tax Act",
+        "notes": "",
+        "row_var": "AYEAR",
+        "row_label": [
+            "2017",
+            "2018",
+            "2019"
+        ],
+        "start_year": 2017,
+        "cpi_inflatable": true,
+        "cpi_inflated": false,
+        "col_var": "",
+        "col_label": "",
+        "boolean_value": false,
+        "integer_value": false,
+        "value": [
+            5000,
+            5000,
+            5000
+        ],
+        "range": {
+            "min": 0,
+            "max": 9e+99
+        },
+        "out_of_range_minmsg": "",
+        "out_of_range_maxmsg": "",
+        "out_of_range_action": "stop"
+    },
     "_rate1": {
         "long_name": "PIT tax rate 1",
         "description": "The lowest tax rate, applied to the portion of taxable income below tax bracket 1.",

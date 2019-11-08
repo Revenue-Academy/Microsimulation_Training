@@ -1,6 +1,6 @@
 {
     "policy": {
-    "_rate1": {"2017": [0.01]},
+    "_rate1": {"2017": [0.05]},
 	// reduce rebate threshold from 500,000 to 350,000
 	"_rebate_thd": {"2017": [350000]},
 	// reduce rebate ceiling from 5,000 to 3,500
