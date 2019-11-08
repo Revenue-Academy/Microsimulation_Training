@@ -44,12 +44,12 @@ calc1 = Calculator(policy=pol, records=recs, gstrecords=grecs,
 assert isinstance(calc1, Calculator)
 assert calc1.current_year == 2017
 
-calc1.calc_all()
+calc1.calc_all() #calc_all function calculates income and 
 
 dump_vars = ['FILING_SEQ_NO', 'AGEGRP', 'SALARIES', 'INCOME_HP',
              'Income_BP', 'TOTAL_INCOME_OS', 'Aggregate_Income',
              'TI_special_rates', 'tax_TI_special_rates', 'GTI', 'TTI', 'pitax']
-dumpdf = calc1.dataframe(dump_vars)
+dumpdf = calc1.dataframe(dump_vars) #dump all varaibles
 column_order = dumpdf.columns
 
 assert len(dumpdf.index) == calc1.array_len

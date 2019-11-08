@@ -34,9 +34,11 @@ for year in range(2017, 2020):
     calc2.calc_all()
     weighted_tax1 = calc1.weighted_total('pitax')
     weighted_tax2 = calc2.weighted_total('pitax')
+    weighted_tax_diff = weighted_tax2-weighted_tax1
     total_weights = calc1.total_weight()
+    print(f'\n')
     print(f'Tax under Current Law for {year}: ${weighted_tax1 * 1e-9:,.2f} billions')
     print(f'Tax under Reform for {year}: ${weighted_tax2 * 1e-9:,.2f} billions')
     print(f'Total weight for {year}: {total_weights * 1e-6:,.2f} million')
-
+    print(f'Difference {year}: {weighted_tax_diff * 1e-6:,.2f} million')
 

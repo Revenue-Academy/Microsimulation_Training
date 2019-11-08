@@ -14,7 +14,8 @@ import re
 import copy
 import numpy as np
 import pandas as pd
-from taxcalc.functions import (net_salary_income, gross_total_income,
+from taxcalc.functions import (net_salary_income, calc_income_house_property,
+                               gross_total_income,
                                taxable_total_income, pit_liability)
 from taxcalc.corpfunctions import (depreciation_PM,
                                    corp_income_business_profession,
@@ -173,6 +174,7 @@ class Calculator(object):
         cit_liability(self.__policy, self.__corprecords)
         # Individual calculations
         net_salary_income(self.__policy, self.__records)
+        calc_income_house_property(self.__policy, self.__records)
         gross_total_income(self.__policy, self.__records)
         taxable_total_income(self.__policy, self.__records)
         pit_liability(self.__policy, self.__records)

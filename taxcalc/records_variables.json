@@ -114,6 +114,11 @@
       "desc": "Computed Income from Salary",
       "form": {"2017": "ITR-3 Part B-TI-1"}
     },
+    "Income_House_Property": {
+      "type": "float",
+      "desc": "Computed Income from House Property",
+      "form": {"2017": "ITR-3 Part B-TI-2"}
+    },
     "Income_BP": {
       "type": "float",
       "desc": "Computed income from Business and Profession)",
